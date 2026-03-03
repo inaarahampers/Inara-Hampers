@@ -1,43 +1,321 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Inaara Hampers 🎀</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inaara Hampers</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== BODY & BACKGROUND ===== */
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
+  text-align:center;
+  animation:fadeIn 1.2s ease, floatGlow 12s ease-in-out infinite;
+
+  /* Watercolor Gradient Base */
+  background: radial-gradient(circle at top left, rgba(255, 220, 220, 0.35), transparent 50%),
+              radial-gradient(circle at bottom right, rgba(220, 255, 240, 0.35), transparent 50%),
+              linear-gradient(135deg, #ffe6f0 40%, #fffde7 100%);
+  
+  position:relative;
+}
+
+/* ===== FLOATING PETALS ===== */
+body::before{
+  content:"🌸 🌸 🌸 🌸 🌸 🌸 🌸 🌸 🌸 🌸 🌸";
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  font-size:60px;
+  color:rgba(255,182,193,0.07);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-around;
+  align-content:space-around;
+  pointer-events:none;
+  animation:drift 45s linear infinite; /* slower, natural drift */
+}
+
+/* ===== BOKEH + TINY STARS ===== */
+body::after{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background-image: 
+      radial-gradient(rgba(255,255,255,0.25) 1px, transparent 1px),
+      radial-gradient(rgba(255,192,203,0.2) 1px, transparent 1px);
+  background-size: 50px 50px, 70px 70px;
+  opacity:0.18;
+  pointer-events:none;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes drift {
+  0% { transform:translateY(0) rotate(0deg); }
+  50% { transform:translateY(-80px) rotate(180deg); }
+  100% { transform:translateY(0) rotate(360deg); }
+}
+
+@keyframes floatGlow{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0px);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(15px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ===== HEADING ===== */
+h1{
+  margin-top:70px;
+  font-family:'Playfair Display',serif;
+  font-size:52px;
+  letter-spacing:4px;
+  color:#e75480;
+  text-shadow:0 6px 25px rgba(255,105,180,0.25);
+}
+
+/* ===== CONTAINER ===== */
+.container{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:20px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(18px);
+  margin:20px;
+  padding:28px;
+  width:310px;
+  border-radius:28px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.08);
+  transition:0.5s;
+  text-align:left;
+  position:relative;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 30px 70px rgba(255,105,180,0.15);
+}
+
+.price{
+  font-weight:500;
+  margin-top:8px;
+  font-size:15px;
+}
+
+/* ===== BUTTON ===== */
+.btn{
+  margin-top:18px;
+  padding:11px 24px;
+  border-radius:50px;
+  border:1px solid rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(10px);
+  color:#ff4f8b;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.4s ease;
+  margin-right:8px;
+  position:relative;
+  overflow:hidden;
+}
+
+.btn:hover{
+  box-shadow:0 0 18px rgba(255,111,160,0.4);
+  transform:translateY(-3px);
+}
+
+.btn:active{
+  transform:scale(0.95);
+}
+
+.btn span{
+  display:inline-block;
+  transition:opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ===== MODAL ===== */
+.modal{
+  display:none;
+  position:fixed;
+  bottom:-100%;
+  left:50%;
+  transform:translateX(-50%);
+  background:white;
+  padding:30px;
+  border-radius:25px 25px 0 0;
+  box-shadow:0 -20px 60px rgba(0,0,0,0.2);
+  z-index:5;
+  width:100%;
+  max-width:400px;
+  text-align:left;
+  transition:bottom 0.5s ease;
+}
+
+.modal.show{
+  bottom:0;
+}
+
+.overlay{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.3);
+  top:0;
+  left:0;
+  z-index:4;
+}
+
+/* ===== SUNFLOWER FLOAT ===== */
+.sunflower{
+  position:fixed;
+  font-size:20px;
+  animation:floatSun 12s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes floatSun{
+  0%{bottom:-40px; opacity:0;}
+  20%{opacity:0.6;}
+  100%{bottom:100%; opacity:0;}
+}
+
+footer{
+  margin:60px 0 20px;
+  font-size:14px;
+  color:#666;
+}
+
+ul{
+  padding-left:18px;
+}
+
+li{
+  margin-bottom:6px;
+}
+
+/* ===== PERSONAL MESSAGE BOX ===== */
+textarea.personalMessage{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  resize:none;
+  font-family:'Poppins',sans-serif;
+  font-size:14px;
+  margin-top:10px;
+}
+
+</style>
 </head>
 
-<body style="font-family: sans-serif; background:#fff0f5; text-align:center; padding:40px;">
+<body>
 
-  <h1 style="font-size:50px;">Inaara Hampers 🎀</h1>
-  <p style="font-size:20px;">Soft • Feminine • Customised with Love</p>
+<div class="sunflower" style="left:80%; animation-delay:0s;">🌼</div>
+<div class="sunflower" style="left:90%; animation-delay:6s;">🌼</div>
 
-  <h2 style="margin-top:50px;">Our Bestsellers & Pricing</h2>
+<h1>Inaara Gift Studio</h1>
 
-  <div style="margin-top:30px;">
-    <h3>Birthday Hamper 🎂</h3>
-    <p>₹1,499 onwards</p>
-  </div>
+<div class="container">
 
-  <div style="margin-top:30px;">
-    <h3>Bridal Hamper 👰</h3>
-    <p>₹3,999 onwards</p>
-  </div>
+<div class="card">
+<h3>🌸 The Blush Bloom Hamper</h3>
+<p>Soft pink happiness. Perfect for birthdays, best friends, or “just because”.</p>
+<p class="price">₹499</p>
+<button class="btn" onclick="openInside('blush')"><span>View Inside</span></button>
+<button class="btn" onclick="order(this)"><span>Order</span></button>
+</div>
 
-  <div style="margin-top:30px;">
-    <h3>Baby Shower Hamper 🍼</h3>
-    <p>₹2,499 onwards</p>
-  </div>
+<div class="card">
+<h3>☁️ The Cloud Comfort Hamper</h3>
+<p>Cozy • calm • comforting energy. Perfect for someone having a stressful week.</p>
+<p class="price">₹649</p>
+<button class="btn" onclick="openInside('cloud')"><span>View Inside</span></button>
+<button class="btn" onclick="order(this)"><span>Order</span></button>
+</div>
 
-  <div style="margin-top:60px;">
-    <a href="https://instagram.com" target="_blank">
-      <button style="padding:10px 20px; font-size:16px;">
-        Instagram
-      </button>
-    </a>
-  </div>
+<div class="card">
+<h3>🌼 The Little Sunshine Hamper</h3>
+<p>Cheerful • playful • mood-lifting. Perfect for friends, sisters, cousins.</p>
+<p class="price">₹549</p>
+<button class="btn" onclick="openInside('sunshine')"><span>View Inside</span></button>
+<button class="btn" onclick="order(this)"><span>Order</span></button>
+</div>
 
-  <footer style="margin-top:80px;">
-    © 2026 Inaara Hampers. Made with 🎀 in India.
-  </footer>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="modal" id="modalContent"></div>
+
+<footer>
+Curated with love by Inaara
+</footer>
+
+<script>
+
+function openInside(type){
+let content="";
+
+if(type==="blush"){
+content="<h3>Inside The Blush Bloom Hamper</h3><ul><li>🎀 Pastel blush scrunchie</li><li>🍫 Mini Dairy Milk</li><li>🖊 Aesthetic pastel pen</li><li>✨ Heart/star sticker sheet</li><li>💌 Handwritten personalised note</li></ul>" +
+"<h4>Add Your Personalised Message</h4><textarea class='personalMessage' placeholder='Write your message here (max 100 words)' maxlength='600'></textarea>";
+}
+
+if(type==="cloud"){
+content="<h3>Inside The Cloud Comfort Hamper</h3><ul><li>🕯 Scented candle</li><li>💭 3 affirmation cards</li><li>🍫 Mini chocolate</li><li>🖊 Aesthetic pen</li><li>🤍 Thinking of you note</li></ul>" +
+"<h4>Add Your Personalised Message</h4><textarea class='personalMessage' placeholder='Write your message here (max 100 words)' maxlength='600'></textarea>";
+}
+
+if(type==="sunshine"){
+content="<h3>Inside The Little Sunshine Hamper</h3><ul><li>🌼 Yellow scrunchie</li><li>📓 Mini notebook</li><li>🍬 Candy/chocolate</li><li>🌸 Smiley/floral sticker sheet</li><li>💌 Personalised handwritten note</li></ul>" +
+"<h4>Add Your Personalised Message</h4><textarea class='personalMessage' placeholder='Write your message here (max 100 words)' maxlength='600'></textarea>";
+}
+
+document.getElementById("modalContent").innerHTML=content;
+document.getElementById("overlay").style.display="block";
+let modal=document.getElementById("modalContent");
+modal.style.display="block";
+setTimeout(()=>modal.classList.add("show"),10);
+}
+
+function order(btn){
+let span=btn.querySelector("span");
+span.style.opacity="0";
+span.style.transform="translateY(5px)";
+setTimeout(()=>{
+span.innerText="Preparing with Love";
+span.style.opacity="1";
+span.style.transform="translateY(0)";
+},300);
+}
+
+document.getElementById("overlay").onclick=function(){
+let modal=document.getElementById("modalContent");
+modal.classList.remove("show");
+setTimeout(()=>{
+modal.style.display="none";
+document.getElementById("overlay").style.display="none";
+},400);
+}
+
+</script>
 
 </body>
-      </html>
+</html>
